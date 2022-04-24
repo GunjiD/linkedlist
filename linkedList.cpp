@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <string>
 
@@ -23,7 +24,7 @@ public:
   void appendElement(std::string data);
   void insertElement(std::string data);
   void deleteElement(std::string data);
-  void displayList() const;
+  void displayList();
 };
 
 /*************************************
@@ -43,35 +44,47 @@ void linkedList::appendElement(std::string data) {
   Node newNode = {data, nullptr};
 
   // 先頭の要素が nullptr ならば先頭に挿入
-  if (findNode == nullptr) {
+  if (node == nullptr) {
+    std::cout << "先頭に要素を設定します" << std::endl;
     // 先頭のアドレスに
-    findNode = &newNode;
-  }
-  /****
-  else {
+    node = &newNode;
+    std::cout << node->data << std::endl;
+  } else {
     // node->next == nullptr を調べるために全探索
     while (1) {
       // 次のポインタが nullptr ならばノードを挿入
       if (findNode->next_ptr == nullptr) {
+        std::cout << "要素を挿入します" << std::endl;
         findNode->next_ptr = &newNode;
+        // 次のノードに移動して追加した値を表示
+        findNode = findNode->next_ptr;
+        std::cout << "追加した値 = " << findNode->data << std::endl;
         return;
       }
       // node
-      node = node->next_ptr;
+      findNode = findNode->next_ptr;
     }
   }
-  ***/
 }
 
 void linkedList::insertElement(std::string) {}
 void linkedList::deleteElement(std::string) {}
 
-//
-void linkedList::displayList() const {}
+/*************************************
+void linkedList::displayList() const
+*************************************/
+void linkedList::displayList() {
+  //  Node *headNode = node;
+  //    node = node->next_ptr;
+  std::cout << node->data << std::endl;
+}
 
 int main() {
   linkedList lists;
   lists.appendElement("test");
-  lists.displayList();
+  lists.appendElement("hoge");
+  lists.appendElement("fuga");
+  lists.appendElement("hogefuga");
+  //  lists.displayList();
   std::cout << "実行終了" << std::endl;
 }
