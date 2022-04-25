@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <iostream>
 #include <iterator>
 #include <ostream>
@@ -22,8 +23,7 @@ public:
   ~linkedList() {}
 
   void appendElement(int data);
-  void insertElement(int data);
-  void deleteElement(int data);
+  void removeTail();
   void displayList();
 };
 
@@ -55,36 +55,63 @@ void linkedList::appendElement(int data) {
     while (tailNode->next_ptr != nullptr)
       tailNode = tailNode->next_ptr;
     tailNode->next_ptr = newNode;
-    std::cout << "tailNode の値は = " << tailNode->data << std::endl;
-    std::cout << "next_ptr の値は = " << tailNode->next_ptr << std::endl;
   }
-  //  displayList();
 }
 
-void linkedList::insertElement(int) {}
-void linkedList::deleteElement(int) {}
+/*************************************
+void removeTail()
+リストの先頭から探索し、末尾にきたら削除する
+*************************************/
+void linkedList::removeTail() {
+  Node *rootNode = node;
+  Node *preNode = nullptr;
+
+  if (rootNode == nullptr) {
+    return;
+  }
+
+  // 末尾になるまで進む
+  while (rootNode->next_ptr != nullptr) {
+    // 一つ前のノードを保持しておく
+    preNode = rootNode;
+    rootNode = rootNode->next_ptr;
+  }
+  // 一つ前の要素の next_ptr を nullptr で初期化
+  // 初期化後に rootNode の指すポインタを削除
+  preNode->next_ptr = nullptr;
+  delete rootNode;
+}
 
 /*************************************
-void linkedList::displayList() const
+void linkedList::displayList()
 *************************************/
 void linkedList::displayList() {
-  Node *findNode = node;
+  Node *displayNode = node;
   std::cout << "***現在のリスト***" << std::endl;
 
-  while (findNode->next_ptr != nullptr) {
-    std::cout << findNode->data << std::endl;
-    findNode = findNode->next_ptr;
+  // リストが空のときは表示しない
+  if (displayNode == nullptr) {
+    std::cout << "リストは空です" << std::endl;
+  } else {
+    while (displayNode != nullptr) {
+      std::cout << displayNode->data << " ";
+      displayNode = displayNode->next_ptr;
+    }
   }
-  std::cout << findNode->data << std::endl;
-  std::cout << "***リスト表示完了***" << std::endl;
+
+  std::cout << std::endl << "************" << std::endl;
 }
 
 int main() {
   linkedList lists;
+  lists.removeTail();
   lists.appendElement(1);
   lists.appendElement(2);
   lists.appendElement(3);
   lists.appendElement(4);
+  lists.displayList();
+  lists.removeTail();
+  lists.removeTail();
   lists.displayList();
   std::cout << "実行終了" << std::endl;
 }
