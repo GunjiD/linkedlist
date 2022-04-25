@@ -25,6 +25,7 @@ public:
   void appendElement(int data);
   void appendHeadElement(int data);
   void removeTail();
+  void removeHead();
   void displayList();
 };
 
@@ -103,6 +104,28 @@ void linkedList::removeTail() {
 }
 
 /*************************************
+void removeHead()
+リストの先頭から要素を削除する
+*************************************/
+void linkedList::removeHead() {
+  Node *oldHead = node;
+
+  // 先頭の要素が空のときは何もしない
+  if (oldHead == nullptr) {
+    return;
+  }
+
+  // 先頭の要素が一つなら nullptr を代入
+  if (oldHead->next_ptr == nullptr) {
+    oldHead = nullptr;
+  } else {
+    // 先頭の次のポインタを代入
+    node = oldHead->next_ptr;
+    delete oldHead;
+  }
+}
+
+/*************************************
 void linkedList::displayList()
 *************************************/
 void linkedList::displayList() {
@@ -140,6 +163,9 @@ int main() {
 
   lists.appendHeadElement(5);
   lists.appendHeadElement(6);
+  lists.displayList();
+
+  lists.removeHead();
   lists.displayList();
 
   std::cout << "実行終了" << std::endl;
