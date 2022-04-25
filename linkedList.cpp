@@ -22,15 +22,15 @@ public:
 
   ~linkedList() {}
 
-  void appendElement(int data);
-  void appendHeadElement(int data);
+  void appendTail(int data);
+  void appendHead(int data);
   void removeTail();
   void removeHead();
   void displayList();
 };
 
 /*************************************
-void appendElement(std::string data)
+void appendTail(int data)
 リストの最後に要素を追加する
 1. 新しい要素を作成する
 2. リストの最後に新しい要素を追加する
@@ -40,7 +40,7 @@ void appendElement(std::string data)
     - リストの最後までループする
     - 新しいノードを最後のノードの参照としてセットする
 *************************************/
-void linkedList::appendElement(int data) {
+void linkedList::appendTail(int data) {
   // 新しいノード
   Node *newNode = new Node;
   newNode->data = data;
@@ -64,7 +64,7 @@ void linkedList::appendElement(int data) {
 void appendHeadElement(std::string data)
 リストの先頭にデータを追加する
 *************************************/
-void linkedList::appendHeadElement(int data) {
+void linkedList::appendHead(int data) {
   // 挿入するノード
   Node *newHeadNode = new Node;
   newHeadNode->data = data;
@@ -151,18 +151,18 @@ int main() {
   lists.removeTail();
   lists.displayList();
 
-  lists.appendElement(1);
-  lists.appendElement(2);
-  lists.appendElement(3);
-  lists.appendElement(4);
+  lists.appendTail(1);
+  lists.appendTail(2);
+  lists.appendTail(3);
+  lists.appendTail(4);
   lists.displayList();
 
   lists.removeTail();
   lists.removeTail();
   lists.displayList();
 
-  lists.appendHeadElement(5);
-  lists.appendHeadElement(6);
+  lists.appendHead(5);
+  lists.appendHead(6);
   lists.displayList();
 
   lists.removeHead();
