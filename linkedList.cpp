@@ -23,6 +23,7 @@ public:
   ~linkedList() {}
 
   void appendElement(int data);
+  void appendHeadElement(int data);
   void removeTail();
   void displayList();
 };
@@ -55,6 +56,25 @@ void linkedList::appendElement(int data) {
     while (tailNode->next_ptr != nullptr)
       tailNode = tailNode->next_ptr;
     tailNode->next_ptr = newNode;
+  }
+}
+
+/*************************************
+void appendHeadElement(std::string data)
+リストの先頭にデータを追加する
+*************************************/
+void linkedList::appendHeadElement(int data) {
+  // 挿入するノード
+  Node *newHeadNode = new Node;
+  newHeadNode->data = data;
+  newHeadNode->next_ptr = nullptr;
+
+  if (node == nullptr) {
+    node = newHeadNode;
+  } else {
+    // 現在のノードの先頭
+    newHeadNode->next_ptr = node;
+    node = newHeadNode;
   }
 }
 
@@ -92,26 +112,35 @@ void linkedList::displayList() {
   // リストが空のときは表示しない
   if (displayNode == nullptr) {
     std::cout << "リストは空です" << std::endl;
+    std::cout << "******************" << std::endl;
   } else {
     while (displayNode != nullptr) {
       std::cout << displayNode->data << " ";
       displayNode = displayNode->next_ptr;
     }
+    std::cout << std::endl << "******************" << std::endl;
   }
-
-  std::cout << std::endl << "************" << std::endl;
 }
 
 int main() {
   linkedList lists;
+
   lists.removeTail();
+  lists.displayList();
+
   lists.appendElement(1);
   lists.appendElement(2);
   lists.appendElement(3);
   lists.appendElement(4);
   lists.displayList();
+
   lists.removeTail();
   lists.removeTail();
   lists.displayList();
+
+  lists.appendHeadElement(5);
+  lists.appendHeadElement(6);
+  lists.displayList();
+
   std::cout << "実行終了" << std::endl;
 }
