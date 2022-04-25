@@ -7,7 +7,7 @@ class linkedList {
 
 public:
   struct Node {
-    std::string data;
+    int data;
     Node *next_ptr;
   };
 
@@ -21,9 +21,9 @@ public:
 
   ~linkedList() {}
 
-  void appendElement(std::string data);
-  void insertElement(std::string data);
-  void deleteElement(std::string data);
+  void appendElement(int data);
+  void insertElement(int data);
+  void deleteElement(int data);
   void displayList();
 };
 
@@ -38,53 +38,53 @@ void appendElement(std::string data)
     - リストの最後までループする
     - 新しいノードを最後のノードの参照としてセットする
 *************************************/
-void linkedList::appendElement(std::string data) {
-  Node *findNode = node;
+void linkedList::appendElement(int data) {
   // 新しいノード
-  Node newNode = {data, nullptr};
-
+  Node *newNode = new Node;
+  newNode->data = data;
+  newNode->next_ptr = nullptr;
   // 先頭の要素が nullptr ならば先頭に挿入
   if (node == nullptr) {
     std::cout << "先頭に要素を設定します" << std::endl;
     // 先頭のアドレスに
-    node = &newNode;
+    node = newNode;
     std::cout << node->data << std::endl;
   } else {
-    // node->next == nullptr を調べるために全探索
-    while (1) {
-      // 次のポインタが nullptr ならばノードを挿入
-      if (findNode->next_ptr == nullptr) {
-        std::cout << "要素を挿入します" << std::endl;
-        findNode->next_ptr = &newNode;
-        // 次のノードに移動して追加した値を表示
-        findNode = findNode->next_ptr;
-        std::cout << "追加した値 = " << findNode->data << std::endl;
-        return;
-      }
-      // node
-      findNode = findNode->next_ptr;
-    }
+    Node *tailNode = node;
+    // next_ptr が null になるまで進む
+    while (tailNode->next_ptr != nullptr)
+      tailNode = tailNode->next_ptr;
+    tailNode->next_ptr = newNode;
+    std::cout << "tailNode の値は = " << tailNode->data << std::endl;
+    std::cout << "next_ptr の値は = " << tailNode->next_ptr << std::endl;
   }
+  //  displayList();
 }
 
-void linkedList::insertElement(std::string) {}
-void linkedList::deleteElement(std::string) {}
+void linkedList::insertElement(int) {}
+void linkedList::deleteElement(int) {}
 
 /*************************************
 void linkedList::displayList() const
 *************************************/
 void linkedList::displayList() {
-  //  Node *headNode = node;
-  //    node = node->next_ptr;
-  std::cout << node->data << std::endl;
+  Node *findNode = node;
+  std::cout << "***現在のリスト***" << std::endl;
+
+  while (findNode->next_ptr != nullptr) {
+    std::cout << findNode->data << std::endl;
+    findNode = findNode->next_ptr;
+  }
+  std::cout << findNode->data << std::endl;
+  std::cout << "***リスト表示完了***" << std::endl;
 }
 
 int main() {
   linkedList lists;
-  lists.appendElement("test");
-  lists.appendElement("hoge");
-  lists.appendElement("fuga");
-  lists.appendElement("hogefuga");
-  //  lists.displayList();
+  lists.appendElement(1);
+  lists.appendElement(2);
+  lists.appendElement(3);
+  lists.appendElement(4);
+  lists.displayList();
   std::cout << "実行終了" << std::endl;
 }
