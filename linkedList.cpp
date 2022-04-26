@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <cstdio>
 #include <iostream>
 #include <iterator>
 #include <ostream>
@@ -27,6 +28,8 @@ public:
   void removeTail();
   void removeHead();
   void displayList();
+
+  void removeElement(int data);
 };
 
 /*************************************
@@ -145,6 +148,47 @@ void linkedList::displayList() {
   }
 }
 
+/*************************************
+void linkedList::removeElement(int data)
+指定された要素を削除
+*************************************/
+void linkedList::removeElement(int data) {
+  Node *findNode = node;
+  Node *preNode = nullptr;
+  Node *deleteNode = nullptr;
+  // 先頭の要素が空のときは何もしない
+  if (findNode == nullptr)
+    return;
+
+  // 頭から末尾まで探索して指定された要素を削除
+  while (findNode != nullptr) {
+
+    // 削除したい elemnt が見つかったとき
+    if (findNode->data == data) {
+      // prenode にデータがない場合
+      if (preNode == nullptr) {
+        std::cout << "ここにきたらおかしい" << std::endl;
+        removeHead();
+      } else {
+        deleteNode = findNode;
+        preNode->next_ptr = findNode->next_ptr;
+        std::cout << preNode->data << std::endl;
+        std::cout << "削除する要素" << findNode->data << std::endl;
+      }
+    }
+
+    if (deleteNode != nullptr) {
+      findNode = findNode->next_ptr;
+      delete deleteNode;
+      deleteNode = nullptr;
+    } else {
+      preNode = findNode;
+      findNode = findNode->next_ptr;
+    }
+    // std::cout << "findNode->data = " << findNode->data << std::endl;
+  }
+}
+
 int main() {
   linkedList lists;
 
@@ -163,9 +207,13 @@ int main() {
 
   lists.appendHead(5);
   lists.appendHead(6);
+  lists.appendTail(1);
   lists.displayList();
 
   lists.removeHead();
+  lists.displayList();
+
+  lists.removeElement(1);
   lists.displayList();
 
   std::cout << "実行終了" << std::endl;
