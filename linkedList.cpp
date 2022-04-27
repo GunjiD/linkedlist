@@ -162,25 +162,24 @@ void linkedList::removeElement(int data) {
 
   // 頭から末尾まで探索して指定された要素を削除
   while (findNode != nullptr) {
-
+    deleteNode = nullptr;
     // 削除したい elemnt が見つかったとき
     if (findNode->data == data) {
-      // prenode にデータがない場合
-      if (preNode == nullptr) {
-        std::cout << "ここにきたらおかしい" << std::endl;
-        removeHead();
-      } else {
-        deleteNode = findNode;
+      deleteNode = findNode;
+
+      if (preNode != nullptr) {
         preNode->next_ptr = findNode->next_ptr;
-        std::cout << preNode->data << std::endl;
-        std::cout << "削除する要素" << findNode->data << std::endl;
+      } else if (preNode == nullptr) {
+        // preNode が nullptr の場合
+        deleteNode = nullptr;
+        removeHead();
+        findNode = node;
       }
     }
 
     if (deleteNode != nullptr) {
-      findNode = findNode->next_ptr;
+      findNode = preNode->next_ptr;
       delete deleteNode;
-      deleteNode = nullptr;
     } else {
       preNode = findNode;
       findNode = findNode->next_ptr;
@@ -214,6 +213,8 @@ int main() {
   lists.displayList();
 
   lists.removeElement(1);
+  lists.removeElement(5);
+
   lists.displayList();
 
   std::cout << "実行終了" << std::endl;
